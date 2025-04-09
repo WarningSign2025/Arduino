@@ -1,5 +1,5 @@
 void wifiConnection() {
-  int w=1,f=1;
+  int w=1,f=5;
 
   ssid[0] = "CS_Class";
   password[0] = "26430686";
@@ -11,6 +11,12 @@ void wifiConnection() {
   password[3] = "26430686";
   ssid[4] = "OPPO Reno8 5G";
   password[4] = "31415926535";
+  ssid[5] = "vivo-致";
+  password[5] = "113333555555";
+  ssid[6] = "CS-Robot";
+  password[6] = "CS201CS201";
+  //ssid[6] = "Lenovo";
+  //password[6] = "113333555555";
 
 
   do{
@@ -31,10 +37,11 @@ void wifiConnection() {
   if (WiFi.status() != WL_CONNECTED){
     w=1;
     f++;
-    if (ssid[f] == "" || f >=3){
+    if (ssid[f] == "" || f >6){
       f=0;
     }
     }
   }while(WiFi.status() != WL_CONNECTED);
-  Serial.println("\nWi-Fi 已連接");
+  Serial.print(ssid[f]);
+  Serial.println(" Wi-Fi 已連接");
 }

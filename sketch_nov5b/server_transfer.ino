@@ -14,13 +14,14 @@ void server_transfer(int battery,int waringsign_status,int charing,int eco) {
     }
   }
   Serial.println("已連線到伺服器");
-
+  battery=68;
   String jsonData = "{\"battery\":" + String(battery) + 
                     ",\"waringsign_status\":" + String(waringsign_status) + 
                     ",\"charing\":" + String(charing) + 
                     ",\"eco\":" + String(eco) + "}";
   client.println("POST /arduino_info/ HTTP/1.1");
-  client.println("Host: warningsign.pp.ua");
+  //client.println("Host: 192.168.137.1");
+  client.println("Host: proxy.warningsign.pp.ua");
   client.println("Content-Type: application/json");
   client.print("Content-Length: ");
   client.println(jsonData.length());

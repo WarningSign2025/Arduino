@@ -7,9 +7,12 @@ Servo myservo;
 
 const char* ssid[11]={""};
 const char* password[11]={""};
-const char* server = "warningsign.pp.ua";
+//const char* server = "192.168.137.1";
+const char* server = "proxy.warningsign.pp.ua";
+//const int httpsPort = 80;
 const int httpsPort = 443;
 WiFiSSLClient client;
+//WiFiClient client;
 int WWW=8;
 void setup() {
   Serial.begin(9600);
@@ -29,16 +32,17 @@ void loop() {
   
   Serial.print("A1:");
   Serial.println((analogRead(A1) * 0.009775));
-  power=((analogRead(A1)*0.009775)-2.7)/2.4*100;
+  power=((analogRead(A1)*0.009775)-2.4)/2.7*100;
   if(power>=100){power=100;}else if(power<=0){power=0;}
   if(power<=30){SavePower=1;}else{SavePower=2;}
   Serial.print("A2:");
   Serial.println((analogRead(A2) * 0.009775));
-  if((analogRead(A2) * 0.009775)>1){Charge=1;}else{Charge=2;}
+  if((analogRead(A2) * 0.009775)>3){Charge=1;}else{Charge=2;}
   server_transfer(power,2,Charge,SavePower);
   open=0;
-  d=0;
+  d=1;
   do {
+    Serial.print("連接次數:");
     Serial.println(d);
     open=performRequest(0);
     digitalWrite(WWW, HIGH); 
@@ -52,31 +56,32 @@ void loop() {
     }else{
       Serial.print("A1:");
       Serial.println((analogRead(A1) * 0.009775));
-      power=((analogRead(A1)*0.009775)-2.7)/2.4*100;
+      power=((analogRead(A1)*0.009775)-2.4)/2.7*100;
       if(power>=100){power=100;}else if(power<=0){power=0;}
       if(power<=30){SavePower=1;}else{SavePower=2;}
       Serial.print("A2:");
       Serial.println((analogRead(A2) * 0.009775));
-      if((analogRead(A2) * 0.009775)>1){Charge=1;}else{Charge=2;}
+      if((analogRead(A2) * 0.009775)>3){Charge=1;}else{Charge=2;}
       server_transfer(power,2,Charge,SavePower);
-      d=0;
+      d=1;
     }
     }//else{delay(2000);}
   }while(open!=1);
   myservo.write(-2);
   Serial.print("A1:");
   Serial.println((analogRead(A1) * 0.009775));
-  power=((analogRead(A1)*0.009775)-2.7)/2.4*100;
+  power=((analogRead(A1)*0.009775)-2.4)/2.7*100;
   if(power>=100){power=100;}else if(power<=0){power=0;}
   if(power<=30){SavePower=1;}else{SavePower=2;}
   Serial.print("A2:");
   Serial.println((analogRead(A2) * 0.009775));
-  if((analogRead(A2) * 0.009775)>1){Charge=1;}else{Charge=2;}
+  if((analogRead(A2) * 0.009775)>3){Charge=1;}else{Charge=2;}
   server_transfer(power,1,Charge,SavePower);
-  
   off=0;
-  d=0;
+  d=1;
   do {
+    Serial.print("連接次數:");
+    Serial.println(d);
     Serial.println(d);
     off=performRequest(1);
     digitalWrite(WWW, HIGH); 
@@ -90,14 +95,14 @@ void loop() {
     }else{
       Serial.print("A1:");
       Serial.println((analogRead(A1) * 0.009775));
-      power=((analogRead(A1)*0.009775)-2.7)/2.4*100;
+      power=((analogRead(A1)*0.009775)-2.4)/2.7*100;
       if(power>=100){power=100;}else if(power<=0){power=0;}
       if(power<=30){SavePower=1;}else{SavePower=2;}
       Serial.print("A2:");
       Serial.println((analogRead(A2) * 0.009775));
-      if((analogRead(A2) * 0.009775)>1){Charge=1;}else{Charge=2;}
+      if((analogRead(A2) * 0.009775)>3){Charge=1;}else{Charge=2;}
       server_transfer(power,1,Charge,SavePower);
-      d=0;
+      d=1;
     }
     }//else{delay(2000);}
   }while(off!=1);
